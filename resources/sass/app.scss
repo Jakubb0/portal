@@ -1,0 +1,19 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Przejście modal
+.smooth-transition{
+    animation-name: smooth; 
+    animation-duration: 1s;
+}
+
+@keyframes smooth {
+    from {opacity: 0.2;}
+    to {opacity: 1.0;}
+}
