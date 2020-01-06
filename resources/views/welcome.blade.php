@@ -33,7 +33,8 @@
 
                 <div class="links">
                     <a href="#" data-toggle="modal" data-target="#loginModal">Zaloguj się</a>
-                    <a href="#" data-toggle="modal" data-target="#registerModal">Utwórz konto</a>
+                    <a href="#" data-toggle="modal" data-target="#registerModal">Utwórz konto</a><br>
+                    <a href="{{route('guest')}}"><small class="text-muted">Bez logowania</small></a>
                 </div>  
 
 
@@ -103,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-
+        
             </div>
         </div>
         

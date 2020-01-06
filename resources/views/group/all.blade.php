@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -23,11 +22,12 @@
                   <th scope="col">Instytut</th>
                   <th scope="col">Rok rozpoczęcia</th>
                   <th scope="col">Typ grupy</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
                 @foreach($groups as $i=>$gr)
-                <tr>
+                <tr data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">
                   <td>{{$i+1}}</td>
                   <td>{{$gr->name}}</td>
                   <td>{{$gr->institute}}</td>
@@ -42,17 +42,44 @@
                       @case(6) Inna @break
                     @endswitch
                   </td>
+                  <td><a class="badge badge-primary" href="{{route('groups.add', $gr->id)}}">Dodaj do grupy</a></td>
                 </tr>
                 @endforeach
-                @else
+            @else
                   Nie należysz do żadnej grupy
-                @endif
+            @endif
               </tbody>     
             </table>
           </div>
         </div>
-      </div>
+      </div>,
     </div>
   </div>
 </div>
+
+<div class="modal smooth-transition" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="loginModalLabel">Członkowie grupy</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table responsive">
+      <thead>
+        <th>#</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th></th>
+      </thead>
+      <tbody id="test" >
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
 @endsection

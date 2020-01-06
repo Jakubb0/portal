@@ -68845,6 +68845,63 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./components/Example */ "./resources/js/components/Example.js");
 
+$(".xxx").on("click", function () {
+  var id = $(this).attr("val");
+  $('#test').html('<div class="d-flex justify-content-center"><div class="spinner-grow spinner-grow-md" role="status"><span class="sr-only">Loading...</span></div></div>');
+  $.ajax({
+    type: 'GET',
+    url: './group/info/' + id,
+    success: function success(data) {
+      $('#test').html(data);
+    }
+  });
+});
+$("#search").keyup(function () {
+  $value = $(this).val();
+  $.ajax({
+    type: 'get',
+    url: '../../ajax/search',
+    data: {
+      'search': $value
+    },
+    success: function success(data) {
+      $('#tezt').html(data);
+    }
+  });
+});
+$(".custom-file-input").on("change", function () {
+  var files = $(this)[0].files;
+  $(".custom-file-uploaded").empty();
+  $(".custom-file-uploaded").append("<h5><b><u>Załączone pliki:</u></b></h5>");
+  $(this).siblings(".custom-file-label").html("Wybrane pliki: " + files.length);
+  console.log(files.length);
+
+  for (var i = 0; i < files.length; i++) {
+    console.log(files[i].name);
+    $(".custom-file-uploaded").append("<p>- " + files[i].name + "</p>");
+  }
+});
+$('.multi-option').mousedown(function (e) {
+  e.preventDefault();
+  $(this).prop('selected', !$(this).prop('selected'));
+});
+$(document).on("click", ".zxc", function () {
+  var uid = $(this).attr("val");
+  $.ajax({
+    type: 'GET',
+    url: window.location.href + '/' + uid,
+    success: function success(data) {
+      $("#x").load(" #x>*", "");
+    }
+  });
+});
+$('#ypublic').click(function () {
+  $("#selectgroup").hide();
+});
+$('#npublic').click(function () {
+  $("#selectgroup").show();
+});
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

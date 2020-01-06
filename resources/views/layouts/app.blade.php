@@ -20,6 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+    @if(Auth::check())
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm">
             <a class="navbar-brand" href="{{route('main')}}">Portal</a>
@@ -30,7 +31,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('posts')}}">Wiadomości</a>
+                    <a class="nav-link" href="#">Wiadomości</a>
                 </li>        <li class="nav-item">
                     <a class="nav-link" href="{{route('groups')}}">Grupy</a>
                 </li>
@@ -48,6 +49,7 @@
             </li> 
             </div>
         </nav>
+    @endif
 
         <main class="py-4">
             @yield('content')

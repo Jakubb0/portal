@@ -5,19 +5,11 @@
   <div class="row justify-content-center">
     <div class="col-lg">
       <div class="card">
-        <h5 class="card-header">Aktualności<a class="badge badge-primary float-right" href="{{route('createpost')}}">Dodaj wpis</a></h5>
+        <h5 class="card-header">Aktualności</h5>
         <div class="card-body">
           <div class="card-text">
-            <h4>Witaj {{Auth::user()->name . ' ' . Auth::user()->surname}}</h4>
-            Filtruj posty:
-            Grupa:
-            <select>
-            @foreach(Auth::user()->groups as $group)
-              <option value="{{$group->id}}">{{$group->name}}</option>
-            @endforeach           
-            </select>   
-            
-
+            <h4>Witaj, żeby korzystać ze wszystkich funkcjanolności zaloguj się</h4> 
+          
             @if(isset($posts))
 
             @foreach($posts as $post)
@@ -38,7 +30,7 @@
             @endforeach
             @else
             <br>
-            <h6>Nie znaleziono postów</h6>
+            <h6>Nie znaleziono publicznych postów</h6>
 
             @endif
           </div>
