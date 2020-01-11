@@ -53,15 +53,23 @@
                                     @csrf
                                     <div class="form-group text-left font-weight-bold">
                                         <label for="email">E-mail</label>
-                                            <input class="form-control" name="email" type="email">
+                                            <input class="form-control" name="email" id="email" type="email">
                                         <label for="name">Imię</label>
-                                            <input class="form-control" name="name" type="text">
+                                            <input class="form-control" name="name" id="name" type="text">
                                         <label for="surname">Naziwsko</label>
-                                            <input class="form-control" name="surname" type="text">
+                                            <input class="form-control" name="surname" id="surname" type="text">
+                                        <label for="album">Numer albumu</label>
+                                            <input class="form-control" name="album" id="album" type="number">
                                         <label for="login">Login</label>
-                                            <input class="form-control" name="login" type="text">
+                                            <input class="form-control" name="login" id="login" type="text">
                                         <label for="password">Hasło</label>
-                                            <input class="form-control" name="password" type="password">
+                                            <input class="form-control" name="password" id="password" type="password">
+                                        <label for="group">Grupa</label>
+                                        <select class="form-control" name="group" id="group">
+                                            @foreach($groups as $group)
+                                            <option value="{{$group->id}}">{{$group->name}}/{{$group->year}}/{{$group->institute}}</option>
+                                            @endforeach
+                                        </select>
                                         <br>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>

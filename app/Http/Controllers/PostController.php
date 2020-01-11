@@ -51,8 +51,9 @@ class PostController extends Controller
 
 
         $postx = Post::find($post->id);
- 
-        if($request->public==true)
+        
+
+        if($request->public=="true")
         {
             $postx->public = true;
             $postx->save();
@@ -73,16 +74,17 @@ class PostController extends Controller
                 $name=$file->getClientOriginalName();
                 $file->move(public_path().'\\files\\', $name);  
                 
+                $filex = new File;
+                $filex->name = $name;
+                $filex->path =  public_path().'\\files\\' . $name;
+                $filex->filetest_id =  $post->id;
+                $filex->filetest_type = get_class($postx);
 
-                $filex = File::create([
-                    'name' => $name,
-                    'path' => public_path().'\\files\\' . $name,
-                ]);
-
-                $postx->files()->attach($filex->id);
+                $filex->save();
             }
         }
 
         return redirect()->route('main');
     }
+
 }

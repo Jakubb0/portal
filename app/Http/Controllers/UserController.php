@@ -6,30 +6,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Group;
 
 class UserController extends Controller
 {
     public function register(Request $request)
     {
+        
         $request->validate([
             'login' => 'bail|unique:users|required',
             'password' => 'min:8|required',
             'email' => 'unique:users|required',
             'name' => 'required',
             'surname' => 'required',
+            'album' => 'required|unique:users',
         ]);
 
+        $group = Group::find($request->group);
 
-    	$user = new User();
-    	$user->name = $request->name;
-    	$user->surname = $request->surname;
-    	$user->login = $request->login;
-    	$user->password = Hash::make($request->password);
-    	$user->email = $request->email;
-    	$user->role = 1;
-    	$user->album = null;
 
-    	$user->save();
+        $user = User::create([
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'login' => $request->login,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'album' => $request->album,
+            'role' => 1,
+        ]);
+
+        $group->users()->attach($user->id);
+
 
     	return $this->login($request);
     }
@@ -38,7 +45,8 @@ class UserController extends Controller
     {
     	$credentials = $request->only('login', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) 
+        {
 
             return redirect()->intended('/main');
         }	
@@ -52,5 +60,15 @@ class UserController extends Controller
     {
     	Auth::logout();
     	return redirect()->home();
+    }
+
+    public function home()
+    {
+        $groups=Group::where('type', 1)->get();
+        if(!Auth::check())
+            return view('welcome')->with('groups', $groups);
+        else
+            return redirect()->route('main');
+
     }
 }

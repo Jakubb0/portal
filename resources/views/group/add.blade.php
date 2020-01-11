@@ -15,14 +15,17 @@
                     <form method="post" action="{{route('groups.postadd', $id)}}">
                         @csrf
                         <div class="form-group text-left font-weight-bold">
+                        <div id="x">
+                            
                         @if(!empty($users))
                             <label for="users[]">Użytkownicy do dodania</label>
-                            <select class="form-control" multiple id="x" name="users[]">
+                            <select class="form-control" multiple name="users[]">
                                 @foreach($users as $user)
                                     <option class="multi-option" value="{{$user->id}}" selected>{{$user->name}} {{$user->surname}} Album: {{$user->album}}</option>
                                 @endforeach  
                             </select>          
                         @endif
+                        </div>
                             <input class="btn btn-primary" type="submit">
                     </form>
                     </div>

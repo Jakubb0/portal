@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
 	public $timestamps = false;
-    protected $fillable = ['name', 'path'];
+    protected $fillable = ['name', 'path', 'filetest_id', 'filetest_type'];
 
-    public function posts()
+    public function filetest()
     {
-    	return $this->belongsToMany('App\Post');
+		return $this->morphTo();
     }
 }

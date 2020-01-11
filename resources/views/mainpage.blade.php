@@ -41,6 +41,7 @@
             <h6>Nie znaleziono postów</h6>
 
             @endif
+            
           </div>
         </div>
       </div>

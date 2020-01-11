@@ -15,7 +15,8 @@ Route::view('/test', 'group.add')->name('test');
 
 
 // HOME
-Route::view('/', 'welcome')->name('home');
+//Route::view('/', 'welcome')->name('home');
+Route::get('/', 'UserController@home')->name('home');
 
 // DASHBOARD
 //Route::view('/main', 'mainpage')->middleware('loggedin')->name('main');
@@ -43,5 +44,19 @@ Route::get('/main', 'PostController@posts')->name('main')->middleware('loggedin'
 Route::view('/main/post', 'post.create')->name('createpost')->middleware('teacher');
 Route::post('/main/post/add', 'PostController@add')->name('addpost')->middleware('teacher');
 
-//SEARCH
+// MESSAGE
+Route::get('/message', 'MessageController@messages')->name('messages')->middleware('loggedin');
+Route::get('/message/create', 'MessageController@create')->name('message.create')->middleware('teacher');
+Route::get('/message/add/{id}', 'MessageController@add')->name('message.add')->middleware('teacher');
+Route::post('/message/postadd', 'MessageController@postadd')->name('message.postadd')->middleware('teacher');
+Route::get('/message/read/{id}', 'MessageController@read')->name('message.read')->middleware('loggedin');
+
+Route::get('/message/x/{id}', 'AjaxController@messages')->name('message.read')->middleware('loggedin');
+
+
+// SEARCH
 Route::get('/ajax/search', 'AjaxController@search')->name('search');
+Route::get('/ajax/searchuser', 'AjaxController@searchuser')->name('searchuser');
+
+// FILES
+Route::get('/file', 'FileController@filelist')->name('files');

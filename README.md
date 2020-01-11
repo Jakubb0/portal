@@ -11,4 +11,6 @@
 	<li>Dodawanie plików oraz ich pobieranie</li>
 	<li>Strona "gościa"</li>
 	<li>Wyszukiwanie użytkowników w celu ich dodania do grupy</li>
+	<li>Wysyłanie oraz odbieranie wiadomości</li>
+	<li>Strona z plikami z postów</li>
 </ul>

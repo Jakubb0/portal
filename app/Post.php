@@ -16,6 +16,7 @@ class Post extends Model
 
     public function files()
     {
-    	return $this->belongsToMany('App\File');
+    	//return $this->belongsToMany('App\File');
+        return $this->morphMany('App\File', 'filetest');
     }
 }

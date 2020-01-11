@@ -11383,3 +11383,31 @@ a.text-dark:focus {
   }
 }
 
+.highlight {
+  background-color: rgba(140, 250, 186, 0.7);
+}
+
+#messages {
+  border-collapse: separate;
+  width: 100%;
+  border: 2px solid aqua;
+  border-radius: 15px;
+}
+
+#messages article {
+  margin: 10px;
+  padding: 10px;
+  border-bottom: 2px solid aqua;
+  border-right: 2px solid aqua;
+  background-color: #f2f2f2;
+}
+
+#messages p {
+  padding-right: 20%;
+  height: 100%;
+}
+
+#messages .recieved {
+  background-color: white !important;
+}
+

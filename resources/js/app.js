@@ -43,6 +43,19 @@ $("#search").keyup(function(){
 });
 
 
+$("#searchuser").keyup(function(){
+	$value=$(this).val();
+	$.ajax({
+	type : 'get',
+	url : '../ajax/searchuser',
+	data:{'search':$value},
+	success:function(data){
+		$('#tezt').html(data);
+		}
+	});
+});
+
+
 $(".custom-file-input").on("change", function() {
 	var files = $(this)[0].files;
 	$(".custom-file-uploaded").empty();
@@ -71,7 +84,7 @@ $(document).on( "click", ".zxc" ,function() {
 	   	type:'GET',
 	   	url: window.location.href + '/' +uid,
 	   	success:function(data) {
-	   		$("#x").load(" #x>*","");
+	   		$("#x").load( location.href+" #x");
 
 	   }
 	});
@@ -85,3 +98,47 @@ $('#npublic').click(function(){
 	$("#selectgroup").show();
 });
 
+$(document).on("click", ".adduser", function(){
+	var uid = $(this).attr("val"); 
+	$.ajax({
+	   	type:'GET',
+	   	url: './add/'+uid,
+	   	success:function(data) {
+	   		$("#user").load(location.href+" #user");
+
+	   }
+	});
+	$('#searchuser').hide();
+	$('#tezt').hide();
+});
+
+$(document).on("click", "#changeuser", function(e){
+	e.preventDefault();
+	$('#searchuser').show();
+	$('#tezt').show();
+	$(this).hide();
+});
+
+$(document).on("click",".show_message" ,function(){
+	var val = $(this).attr('val');
+	$.ajax({
+	   	type:'GET',
+	   	url: './message/read/'+val,
+	   	success:function(data) {
+	   }
+	});
+	$('#message_content'+val).removeClass('d-none');
+	$('#message_content'+val).toggle();
+});
+
+$(".recieved").on("click", function(){
+	var val = $(this).attr('val');
+	$.ajax({
+	   	type:'GET',
+	   	url: './message/x/'+val,
+	   	success:function(data) {
+	   		$("#messagebox").html(data);
+
+	   }
+	});
+});
