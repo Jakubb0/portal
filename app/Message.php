@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-	public $timestamps = false;
-	protected $fillable = ['title', 'content', 'from_id', 'to_id', 'date', 'status'];
+    public $timestamps = false;
+    protected $fillable = ['title', 'content', 'from_id', 'to_id', 'date', 'status'];
 
     public function files()
     {

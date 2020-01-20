@@ -28,18 +28,18 @@ class PostController extends Controller
         else
             $posts = Post::where('public', true)->get()->sortByDesc('date');
         /*
-    	$p = array(); 
+        $p = array(); 
         if(Auth::check())
         {
-        	$user  = Auth::user();
+            $user  = Auth::user();
 
-        	for($i = 0; $i<count($user->groups); $i++)
-        	{
-        		for($j = 0; $j<count($user->groups[$i]->posts); $j++)
-        		{
-        			$p[]=$user->groups[$i]->posts[$j];
-        		}
-        	}
+            for($i = 0; $i<count($user->groups); $i++)
+            {
+                for($j = 0; $j<count($user->groups[$i]->posts); $j++)
+                {
+                    $p[]=$user->groups[$i]->posts[$j];
+                }
+            }
         }
         
         $x=Post::where('public', true)->get();
@@ -51,11 +51,11 @@ class PostController extends Controller
         } 
 
 
-    	$p = collect($p)->sortBy('date')->reverse();
+        $p = collect($p)->sortBy('date')->reverse();
         */
         $view = Auth::check()?'mainpage':'guest'; 
-    	
-    	return view($view)->with('posts', $posts);
+        
+        return view($view)->with('posts', $posts);
     }
 
     public function add(Request $request)

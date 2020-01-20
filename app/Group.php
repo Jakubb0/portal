@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-	public $timestamps = false;
-	protected $fillable = ['name', 'institute', 'year', 'type', 'owner'];
+    public $timestamps = false;
+    protected $fillable = ['name', 'institute', 'year', 'type', 'owner'];
 
 
     public function users()
@@ -17,6 +17,6 @@ class Group extends Model
 
     public function posts()
     {
-    	return $this->belongsToMany('App\Post');
+        return $this->belongsToMany('App\Post');
     }
 }

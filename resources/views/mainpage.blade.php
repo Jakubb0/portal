@@ -9,12 +9,16 @@
         <div class="card-body">
           <div class="card-text">
             <h4>Witaj {{Auth::user()->name . ' ' . Auth::user()->surname}}</h4>
+<<<<<<< HEAD
             <div>
             Filtruj posty:
             <br>
             Grupa:
             <select id="filtercond">
               <option value="all">Wszystkie</option>
+            Filtruj posty:
+            Grupa:
+            <select>
             @foreach(Auth::user()->groups as $group)
               <option value="{{$group->id}}">{{$group->name}}</option>
             @endforeach           
@@ -23,6 +27,10 @@
             </div>
             @if(isset($posts))
             <!--
+            
+
+            @if(isset($posts))
+
             @foreach($posts as $post)
               <div class="card">
                 <div class="card-header">{{App\User::Where('id',$post->user_id)->pluck('name')[0] .' ' . App\User::Where('id',$post->user_id)->pluck('surname')[0]}} napisał: <br>{{$post->title}} <br>{{$post->date}}</div>   
@@ -32,6 +40,7 @@
                   <small class="text-muted">
                     @foreach($post->files as $file)
                       <a href="files/{{$file->name}}">{{$file->name}}</a>
+                      <a href="{{$file->path}}">{{$file->name}}</a>
                     @endforeach
                   </small>
                 </div>
@@ -39,7 +48,7 @@
               </div>
               <br>
             @endforeach
-            -->
+          -->
             <div id="posts">
             @foreach($posts as $post)
             <article>

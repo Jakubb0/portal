@@ -14,45 +14,45 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-	public function messages()
-	{
-		
-		return view('message.all');
-	}
+    public function messages()
+    {
+        
+        return view('message.all');
+    }
 
 
-	public function create(Request $request)
-	{
-		if($request->cookie('user')!=null)
-		{
-			$user = User::find($request->cookie('user'));
-			return view('message.create')->with('user', $user);
-		}
-		else
-			return view('message.create');
+    public function create(Request $request)
+    {
+        if($request->cookie('user')!=null)
+        {
+            $user = User::find($request->cookie('user'));
+            return view('message.create')->with('user', $user);
+        }
+        else
+            return view('message.create');
 
 
-	}
+    }
 
     public function add($id)
     {
-    	Cookie::queue('user', $id, 10);
+        Cookie::queue('user', $id, 10);
     }
 
     public function postadd(Request $request)
     {
-    	$message = Message::create([
-    		'title' => $request->title,
-    		'content' => $request->content,
-    		'to_id' => $request->cookie('user'),
-    		'from_id' => Auth::id(),
-    		'date' => date(now()),
-    		'status' => false,
-    	]);
+        $message = Message::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'to_id' => $request->cookie('user'),
+            'from_id' => Auth::id(),
+            'date' => date(now()),
+            'status' => false,
+        ]);
 
-    	$messagex = Message::find($message->id);
+        $messagex = Message::find($message->id);
 
-    	if($request->file('files'))
+        if($request->file('files'))
         {
             foreach($request->file('files') as $file)
             {

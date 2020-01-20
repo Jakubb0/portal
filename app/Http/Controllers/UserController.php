@@ -39,28 +39,28 @@ class UserController extends Controller
         }
 
 
-    	return $this->login($request);
+        return $this->login($request);
     }
 
     public function login(Request $request)
     {
-    	$credentials = $request->only('login', 'password');
+        $credentials = $request->only('login', 'password');
 
         if (Auth::attempt($credentials)) 
         {
 
             return redirect()->intended('/main');
-        }	
-       	else
-       	{
-       		return redirect()->back();
-       	}
+        }   
+        else
+        {
+            return redirect()->back();
+        }
     }
 
     public function logout()
     {
-    	Auth::logout();
-    	return redirect()->home();
+        Auth::logout();
+        return redirect()->home();
     }
 
     public function home()

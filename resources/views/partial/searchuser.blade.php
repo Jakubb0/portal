@@ -1,9 +1,9 @@
 <table>
 <thead>
-	<th>#</th>
-	<th>Imie</th>
-	<th>Naziwsko</th>
-	<th></th>
+  <th>#</th>
+  <th>Imie</th>
+  <th>Naziwsko</th>
+  <th></th>
 </thead>
 <tbody>
 @foreach($users as $i=>$user)   

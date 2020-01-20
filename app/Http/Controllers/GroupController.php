@@ -12,29 +12,29 @@ class GroupController extends Controller
 {
     public function groups()
     {
-    	$user = Auth::user();
+        $user = Auth::user();
         if($user->role<3)
             $groups = $user->groups;
         else
             $groups = Group::all();
      
-    	return view('group.all')->with('groups', $groups);
+        return view('group.all')->with('groups', $groups);
     }
 
     public function new(Request $request)
     {
-    		
-    	$group = Group::create([
-    		'name' => $request->name,
-    		'institute' => $request->institute,
-    		'year' => $request->year,
-    		'type' => $request->type,
+            
+        $group = Group::create([
+            'name' => $request->name,
+            'institute' => $request->institute,
+            'year' => $request->year,
+            'type' => $request->type,
             'owner' => Auth::id(),
-    	]);
+        ]);
 
         $group->users()->attach(Auth::id());
 
-    	return redirect()->intended('/group');
+        return redirect()->intended('/group');
     }
 
     public function addto(Request $request, $id, $uid)

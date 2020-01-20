@@ -21,6 +21,7 @@
                   <small class="text-muted">
                     @foreach($post->files as $file)
                       <a href="files/{{$file->name}}">{{$file->name}}</a>
+                      <a href="{{$file->path}}">{{$file->name}}</a>
                     @endforeach
                   </small>
                 </div>
