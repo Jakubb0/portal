@@ -59,19 +59,17 @@ Route::post('/message/postreply/{type}/{id}', 'MessageController@postreply')->na
 Route::get('/file', 'FileController@filelist')->name('files');
 
 
-
+// AJAX
 Route::middleware('ajax')->group(function () { 
 	Route::get('/message/x/{id}', 'AjaxController@messages')->middleware('loggedin');
 	Route::get('/message/read/{type}/{id}', 'MessageController@read')->middleware('loggedin');
 	Route::get('/post/filter/{id}', 'AjaxController@posts');
-	Route::get('/users/x/{id}', 'AjaxController@users')->middleware('teacher'); // middleware admin 
-	// SEARCH
+	Route::get('/users/x/{id}', 'AjaxController@users')->middleware('admin');  
 	Route::get('/ajax/search{id}', 'AjaxController@search')->name('search');
 	Route::get('/ajax/user/search', 'AjaxController@searchuser')->name('searchuser');
-	//
 	Route::get('/userinfo/{id}', 'AjaxController@userinfo')->name('userinfo')->middleware('teacher'); 
 	Route::get('/group/add/{id}/{uid}', 'GroupController@addto')->name('groups.addto')->middleware('teacher');
 	Route::get('/message/add/{id}', 'MessageController@add')->name('message.add');
+	Route::get('/group/info/{id}', 'AjaxController@groups')->name('grouptest');
     
 });
-	Route::get('/group/info/{id}', 'AjaxController@groups')->name('grouptest');
