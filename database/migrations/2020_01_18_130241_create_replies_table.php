@@ -18,10 +18,14 @@ class CreateRepliesTable extends Migration
             $table->char('title', 64);
             $table->string('content');
             $table->unsignedBigInteger('message_id');
+            $table->unsignedBigInteger('from_id')->nullable();
+            $table->unsignedBigInteger('to_id')->nullable();
             $table->dateTime('date');
             $table->boolean('status');
 
             $table->foreign('message_id')->references('id')->on('messages');
+            $table->foreign('from_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('to_id')->references('id')->on('users')->onDelete('set null');
 
         });
     }

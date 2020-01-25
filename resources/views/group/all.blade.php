@@ -4,16 +4,17 @@
   <div class="row justify-content-center">
     <div class="col-lg">
       <div class="card">
-        <h5 class="card-header">Grupy</h5>
+        <h5 class="card-header">Grupy
+            @if(Auth::user()->role>=2)
+              <a class="float-right badge badge-primary" href="{{route('groups.create')}}">Utwórz grupę</a>
+            @endif
+        </h5>
         <div class="card-body">
           <div class="card-text">
             @if(isset($groups))
             <h4>Twoje grupy</h4>
-            @if(Auth::user()->role>2)
-              <a class="btn btn-primary" href="{{route('groups.create')}}">Utwórz grupę</a>
-            @endif
             <br/>
-            <br/>
+            <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
@@ -23,16 +24,17 @@
                   <th scope="col">Rok rozpoczęcia</th>
                   <th scope="col">Typ grupy</th>
                   <th scope="col"></th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
                 @foreach($groups as $i=>$gr)
-                <tr data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">
-                  <td>{{$i+1}}</td>
-                  <td>{{$gr->name}}</td>
-                  <td>{{$gr->institute}}</td>
-                  <td>{{$gr->year}}</td>
-                  <td>
+                <tr>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$i+1}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$gr->name}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$gr->institute}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$gr->year}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">
                     @switch($gr->type)
                       @case(1) Wykładowa @break
                       @case(2) Ćwiczeniowa @break
@@ -43,6 +45,7 @@
                     @endswitch
                   </td>
                   <td><a class="badge badge-primary" href="{{route('groups.add', $gr->id)}}">Dodaj do grupy</a></td>
+                  <td><a class="badge badge-danger" onclick="return confirm('Usunąć: {{$gr->name}} {{$gr->institute}} {{$gr->year}}?');" href="{{route('groups.delete', $gr->id)}}">Usuń grupę</a></td>
                 </tr>
                 @endforeach
             @else
@@ -50,6 +53,7 @@
             @endif
               </tbody>     
             </table>
+          </div>
           </div>
         </div>
       </div>,

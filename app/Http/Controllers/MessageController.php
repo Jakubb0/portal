@@ -9,6 +9,8 @@ use App\File;
 use App\Reply;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifyMail;
 
 
 
@@ -50,6 +52,12 @@ class MessageController extends Controller
             'status' => false,
         ]);
 
+        $mailto = User::find($request->cookie('user'));
+        if($mailto->notify == true)
+        {
+            Mail::to($mailto->email)->send(new NotifyMail(Auth::user()));
+        }
+        
         $messagex = Message::find($message->id);
 
         if($request->file('files'))
@@ -58,7 +66,7 @@ class MessageController extends Controller
             {
                 $name=$file->getClientOriginalName();
                 $file->move(public_path().'\\files\\', $name);  
-                
+-                
 
                 $filex = new File;
                 $filex->name = $name;
@@ -74,33 +82,72 @@ class MessageController extends Controller
         return redirect()->route('messages');
     }
 
-    public function read($id)
+    public function read($type, $id)
     {
-        $message=Message::find($id);
-        if($message->status==false && $message->to_id==Auth::id())
+        if($type == 1)
         {
-            $message->status = true;
-            $message->save();
+            $message=Message::find($id);
+            if($message->status==false && $message->to_id == Auth::id())
+            {
+                $message->status = true;
+                $message->save();  
+            }
+        }
+        else
+        {
+            $reply=Reply::where('id',$id)->first();
+            if($reply->status==false && $reply->to_id == Auth::id())
+            {
+                $reply->status = true;
+                $reply->save();  
+            }
         }
     }
 
-    public function reply($id)
+    public function reply($type, $id)
     {
-        $message=Message::find($id);
-        $user=User::find($message->from_id);
-        return view('message.reply', ['message'=>$message, 'user'=>$user]);
+        if($type==1)
+        {
+            $message=Message::find($id);
+            $user=User::find($message->from_id);
+        }
+        else
+        {
+            $message=Reply::find($id);
+            $user=User::find(Reply::find($id)->from_id);
+        }
+        return view('message.reply', ['message'=>$message, 'user'=>$user, 'type'=>$type]);
     }
 
-    public function postreply($id, Request $request)
+    public function postreply($type, $id, Request $request)
     {
+        if($type==1)
+        {
+            $to = Message::find($id)->from_id;
+            $fk = $id;
+        }
+        else
+        {
+            $to = Reply::find($id)->from_id;
+            $fk = Reply::find($id)->messages->id;
+        }
+
         $reply = Reply::create([
             'title' => $request->title,
             'content' => $request->content,
             'date' => date(now()),
-            'message_id' => $id,
+            'message_id' => $fk,
             'status' => false,
+            'from_id' => Auth::id(),
+            'to_id' => $to,
         ]);
 
+        $mailto = User::find($to);
+        if($mailto->notify == true)
+        {
+            Mail::to($mailto->email)->send(new NotifyMail(Auth::id()));
+        }
+        
         $replyx = Reply::find($reply->id);
 
         if($request->file('files'))

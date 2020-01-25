@@ -16,8 +16,6 @@
                                     <input class="form-control" name="title" type="text">
                                 <label for="content">Treść</label>
                                     <textarea class="form-control" name="content" type="text"></textarea>
-                                <label for="content">Tekst</label>
-                                    <input class="form-control" name="content" type="text">
                                 <label for="recievers">Odbiorcy</label>
                                 <br>
                                     <div class="custom-radio custom-control">

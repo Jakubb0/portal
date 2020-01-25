@@ -122,14 +122,15 @@ $(document).on("click", "#changeuser", function(e){
 
 $(document).on("click",".show_message" ,function(){
 	var val = $(this).attr('val');
+	var type = $(this).attr('type');
 	$.ajax({
 	   	type:'GET',
-	   	url: './message/read/'+val,
+	   	url: './message/read/'+ type +'/'+val,
 	   	success:function(data) {
 	   }
 	});
-	$('#message_content'+val).removeClass('d-none');
-	$('#message_content'+val).toggle();
+	$('#message_content'+type+'_'+val).removeClass('d-none');
+	$('#message_content'+type+'_'+val).toggle();
 });
 
 $(".recieved").on("click", function(){

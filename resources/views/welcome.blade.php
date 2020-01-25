@@ -70,6 +70,9 @@
                                             <option value="{{$group->id}}">{{$group->name}}/{{$group->year}}/{{$group->institute}}</option>
                                             @endforeach
                                         </select>
+                                        <label for="check">Powiadamiaj mnie mailowo</label>
+                                        <br>
+                                        <input id="check" name="check" type="checkbox" checked>
                                         <br>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>

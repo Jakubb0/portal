@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->char('email', 70);
             $table->tinyInteger('role');
             $table->integer('album')->unsigned()->nullable();
+            $table->boolean('notify');
         });
     }
 

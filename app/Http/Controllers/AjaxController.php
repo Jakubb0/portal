@@ -7,6 +7,7 @@ use App\Group;
 use App\User;
 use App\Message;
 use App\Post;
+use App\Reply;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -40,16 +41,27 @@ class AjaxController extends Controller
         $group = Group::where('id', $id)->first();
         $owner = $group->owner;
         $users = $group->users;
-        return view('partial.test', ['users' => $users, 'owner' => $owner]);
+        return view('partial.test', ['users' => $users, 'owner' => $owner, 'gid'=>$id]);
     }
 
     public function messages($id)
     {
         if($id==1)
+        {
             $messages = Message::where('to_id', Auth::id())->get();
+            $replies = Reply::where('to_id', Auth::id())->get()->each(function($reply) use($messages)
+                {
+                    $messages->push($reply);
+                });
+        }
         else
+        {
             $messages = Message::where('from_id', Auth::id())->get();
-
+            $replies = Reply::where('from_id', Auth::id())->get()->each(function($reply) use($messages)
+                {
+                    $messages->push($reply);
+                });
+        }
             
 
         return view('partial.messages', ['messages'=>$messages->sortByDesc('date'), 'id'=>$id]);

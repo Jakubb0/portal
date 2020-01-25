@@ -97,4 +97,22 @@ class GroupController extends Controller
 
         return redirect()->route('groups');
     }
+
+    public function deletefrom($gid, $uid)
+    {
+        $group = Group::find($gid);
+        $group->users()->detach($uid);
+        return redirect()->back();
+    }
+
+    public function deletegroup($id)
+    {
+        $group = Group::find($id);
+        if(isset($group->users[0]))
+            $group->users()->detach();
+
+        $group->delete();
+
+        return redirect()->route('groups');
+    }
 }

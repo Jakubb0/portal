@@ -130,8 +130,27 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'E-Mail jest wymagany!',
+            'unique' => 'E-Mail znajduje się już w bazie danych!',
+            'email' => 'Podany adres e-mail ma zły format!',
+        ], 
+       'password' => [
+            'required' => 'Hasło jest wymagane!',
+            'min' => 'Hasło musi mieć co najmniej :min znaków!',
+        ],       
+        'login' => [
+            'required' => 'Login jest wymagany!',
+            'unique' => 'Login znajduje się już w bazie danych!',
+        ],        
+        'album' => [
+            'unique' => 'Numer albumu znajduje się już w bazie danych!',
+        ],        
+        'name' => [
+            'required' => 'Podaj swoje imię!',
+        ],       
+        'surname' => [
+            'required' => 'Podaj swoje nazwisko!',
         ],
     ],
 

@@ -11,6 +11,6 @@
 	    <td>{{$user->name}}</td>
 	    <td>{{$user->surname}}</td>
 	@endif
-    @if(Auth::user()->role>2 && Auth::id()!=$owner)<td><a class="badge badge-danger" href="{{route('main')}}">Usuń</a></td>@else<td></td>@endif
+    @if(Auth::user()->role>=2 && $user->id!=$owner)<td><form method="post" action="{{route('groups.deletefrom',[$gid,$user->id])}}">@csrf <input type="submit" class="btn btn-danger" value="Usuń"></form></td>@else<td></td>@endif
   </tr>
   @endforeach

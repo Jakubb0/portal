@@ -17,11 +17,11 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->char('title', 64);
             $table->string('content');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->boolean('public');
             $table->dateTime('date');
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

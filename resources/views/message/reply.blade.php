@@ -9,11 +9,11 @@
             <div class="card-body">
                 <div class="card-text">
                     <div class="modal-body form-group">
-                        <form method="post" action="{{route('message.postreply', $message->id)}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('message.postreply', [$type, $message->id])}}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group text-left font-weight-bold">
                                 <label for="title">Temat</label>
-                                    <input class="form-control" name="title" type="text" readonly value="Odp: {{$message->title}}">
+                                    <input class="form-control" name="title" type="text" readonly value="{{$type==1?'Odp:' . $message->title:$message->title}}">
                                 <label for="content">Treść</label>
                                     <textarea class="form-control" name="content" type="text"></textarea>
                                 <label for="reciever">Odbiorca</label>

@@ -1,23 +1,32 @@
 @if(!empty($messages[0]))
 <div id="messages">
 @foreach($messages as $message)
-@if($message->to_id==Auth::id() && $message->status==true)
-<article class="show_message recieved" val="{{$message->id}}">
+<?php $type = get_class($message)=='App\\Message'?1:2 ?>
+@if($message->to_id==Auth::id() && $message->status==true )
+<article class="show_message recieved" type="{{$type}}" val="{{$message->id}}">
 @else
-<article class="show_message" val="{{$message->id}}">
+<article class="show_message" val="{{$message->id}}" type="{{$type}}">
 @endif
     <p class="d-inline">
         @if($id==1)
-        Od: {{App\User::find($message->from_id)->name .' '. App\User::find($message->from_id)->surname }}
+            @if(is_null($message->from_id))
+            Od: <span class="text-danger">Użytkownika usniętego</span>
+            @else
+            Od: {{App\User::find($message->from_id)->name .' '. App\User::find($message->from_id)->surname }}
+            @endif
         @else
-        Do: {{App\User::find($message->to_id)->name .' '. App\User::find($message->to_id)->surname }}
+            @if(is_null($message->to_id))
+            Do: <span class="text-danger">Użytkownika usniętego</span>
+            @else
+            Do: {{App\User::find($message->to_id)->name .' '. App\User::find($message->to_id)->surname }}
+            @endif
         @endif
     </p>
     <p class="d-inline">Tytuł: {{$message->title}}</p>
     <p class="d-inline">{{$message->date}}</p>
-    <div id="message_content{{$message->id}}" class="d-none">
+    <div id="message_content{{$type}}_{{$message->id}}" class="d-none">
         <p class="d-block">{{$message->content}}</p>          
-    @if($message->from_id!=Auth::id() || $message->from_id==Auth::id() && isset($message->files[0]))<a href="{{route('reply',$message->id)}}" class="badge badge-primary float-right">Odpisz</a>@endif 
+    @if($id==1 && $message->from_id!==null)<div class="text-right"><a href="{{route('reply',[$type, $message->id])}}" class="badge badge-primary">Odpisz</a></div>@endif 
     @if(isset($message->files[0]))   
       <small class="text-muted">
         @foreach($message->files as $file)

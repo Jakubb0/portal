@@ -16,7 +16,7 @@ class UserController extends Controller
         $request->validate([
             'login' => 'bail|unique:users|required',
             'password' => 'min:8|required',
-            'email' => 'unique:users|required',
+            'email' => 'unique:users|required|email',
             'name' => 'required',
             'surname' => 'required',
             'album' => 'nullable|unique:users',
@@ -31,6 +31,7 @@ class UserController extends Controller
             'email' => $request->email,
             'album' => $request->album,
             'role' => 1,
+            'notify' => $request->check=='on'?true:false,
         ]);
         if(isset($request->group))
         {
@@ -87,6 +88,37 @@ class UserController extends Controller
         return view('users.profile', ['user'=>$user, 'groups'=>$groups, 'ogroups'=> $ogroups]);
     }
 
+    public function editprofile()
+    {
+        $user = Auth::user();
+        return view('users.editprofile')->with('user', $user);
+    }
+
+    public function profilesave(Request $request)
+    {
+        $request->validate([
+            'login' => 'bail|required|unique:users,login,' . Auth::id(),
+            'password' => 'min:8|required',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'name' => 'required',
+            'surname' => 'required',
+            'album' => 'nullable|unique:users,album,' . Auth::id(),
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->surname = $request->surname;
+        $user->email = $request->email;
+        $user->login = $request->login;
+        $user->password = Hash::make($request->password);
+        $user->notify = $request->check=='on'?true:false;
+        if($user->role==1)
+            $user->album = $request->album;
+        $user->save();
+
+        return redirect()->route('profile');
+    }
+
     public function changerole($id, Request $request)
     {
         $user = User::find($id);
@@ -99,8 +131,8 @@ class UserController extends Controller
     public function delete($id)
     {
         $user = User::find($id);
-        $user->groups()->detach();
-        $user->messages()->to_id = "#deleted";
+        if(isset($user->groups[0]))
+            $user->groups()->detach();
         $user->delete();
 
         return redirect()->back();

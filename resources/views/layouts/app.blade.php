@@ -34,9 +34,8 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <?php $msgcount = App\Message::where('to_id', Auth::id())->where('status', false)->count(); 
-                        $reply = App\Message::whereHas('replies', function($q){
-                            $q->where('replies.status', false)->where('messages.from_id', Auth::id());
-                        })->count();
+                        
+                        $reply = App\Reply::where('to_id', Auth::id())->where('status', false)->count();
                         $msgcount = $msgcount + $reply;
                     ?>
 

@@ -20,7 +20,7 @@
               @if(isset($groups[0]))
             </div>
               <div class="col-6">
-              <div class="col-6">
+              <div>
               <h4><a href="{{route('groups')}}">Grupy</a></h4>
               <h5>Należysz do grup:</h5>
               <ul>
@@ -42,7 +42,7 @@
               @else
               <h5>Nie należy do żadnej grupy</h5>
               @endif
-              <div class="col-6">
+              <div>
 
               @if(isset($ogroups[0]))
               <h5>Jesteś właścicielem grup:</h5>
