@@ -8,8 +8,9 @@
             <h5 class="card-header">Wiadomości<a class="badge badge-primary float-right" href="{{route('message.create')}}">Nowa wiadomość</a></h5>
             <div class="card-body">
                     <div class="card-text">
-                        <button class="recieved" val="1">Odebrane</button>
-                        <button class="recieved" val="2">Wysłane</button>
+                        <button class="recieved btn btn-primary" val="1">Odebrane</button>
+                        <button class="recieved btn btn-primary" val="2">Wysłane</button>
+                        <button class="recieved btn btn-secondary" val="3">Nieodczytane</button>
                         <div id="messagebox">
                             
                         </div>

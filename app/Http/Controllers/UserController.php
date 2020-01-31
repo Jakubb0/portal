@@ -30,9 +30,10 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'email' => $request->email,
             'album' => $request->album,
-            'role' => 1,
+            'role' => 0,
             'notify' => $request->check=='on'?true:false,
         ]);
+
         if(isset($request->group))
         {
             $group = Group::find($request->group);
@@ -46,6 +47,10 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('login', 'password');
+        $request->validate([
+            'login' => 'required',
+            'password' => 'required',
+        ]);
 
         if (Auth::attempt($credentials)) 
         {
@@ -71,7 +76,6 @@ class UserController extends Controller
             return view('welcome')->with('groups', $groups);
         else
             return redirect()->route('main');
-
     }
 
     public function users()
@@ -134,6 +138,21 @@ class UserController extends Controller
         if(isset($user->groups[0]))
             $user->groups()->detach();
         $user->delete();
+
+        return redirect()->back();
+    }
+
+    public function activateusers()
+    {
+        $users = User::where('role', 0)->get();
+        return view('users.activateusers')->with('users', $users);
+    }
+
+    public function activate($r, $id)
+    {
+        $user = User::find($id);
+        $user->role = $r;
+        $user->save();
 
         return redirect()->back();
     }

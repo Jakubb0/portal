@@ -68891,11 +68891,15 @@ $(".custom-file-input").on("change", function () {
   console.log(files.length);
 
   for (var i = 0; i < files.length; i++) {
-    console.log(files[i].name);
     $(".custom-file-uploaded").append("<p>- " + files[i].name + "</p>");
   }
 });
-$('.multi-option').mousedown(function (e) {
+/*
+$('.multi-option').mousedown(function(e) {
+});
+*/
+
+$(document).on('mousedown', '.multi-option', function (e) {
   e.preventDefault();
   $(this).prop('selected', !$(this).prop('selected'));
 });
@@ -68951,7 +68955,7 @@ $(".recieved").on("click", function () {
     url: './message/x/' + val,
     success: function success(data) {
       $("#messagebox").html(data);
-      if (val == 1) $("#messagebox").prepend("<br><h5>Odebrane</h5>");else if (val == 2) $("#messagebox").prepend("<br><h5>Wysłane</h5>");
+      if (val == 1) $("#messagebox").prepend("<br><h5>Odebrane</h5>");else if (val == 2) $("#messagebox").prepend("<br><h5>Wysłane</h5>");else if (val == 3) $("#messagebox").prepend("<br><h5>Nieodczytane</h5>");
     }
   });
 });
@@ -68982,14 +68986,48 @@ $('#filterusers').on("click", function () {
 });
 $('#filterposts').on("click", function () {
   var id = $('#filtercond').val();
+  var datefrom = $('#filterdate_from').val();
+  var dateto = $('#filterdate_to').val();
   $.ajax({
     type: 'get',
     url: 'post/filter/' + id,
+    data: {
+      'datefrom': datefrom,
+      'dateto': dateto
+    },
     success: function success(data) {
       $('#posts').html(data);
+      readpost();
     }
   });
 });
+$('#filterposts_show').click(function () {
+  $('#filterposts_box').toggle(500);
+});
+$(document).ready(readpost());
+
+function readpost() {
+  $('.singlepost').each(function (index) {
+    var text = $(this).html();
+    var lines = text.split("\n");
+
+    if (lines.length > 4) {
+      var res = text.substr(0, 100);
+      $(this).html('<div id="res' + index + '">' + res + '</div>');
+      $(this).append("<a id='more" + index + "'>...czytaj więcej</a>");
+      $(document).on('click', '#more' + index, function () {
+        $('#res' + index).html(text);
+        $(this).remove();
+        $('#res' + index).append("<p id='less" + index + "'>...czytaj mniej</p>");
+      });
+      $(document).on('click', '#less' + index, function () {
+        $('#res' + index).html(res);
+        $(this).remove();
+        $('#res' + index).append("<p id='more" + index + "'>...czytaj więcej</p>");
+      });
+    } else $(this).html(text);
+  });
+}
 
 /***/ }),
 

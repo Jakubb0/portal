@@ -54,7 +54,7 @@ class AjaxController extends Controller
                     $messages->push($reply);
                 });
         }
-        else
+        elseif($id==2)
         {
             $messages = Message::where('from_id', Auth::id())->get();
             $replies = Reply::where('from_id', Auth::id())->get()->each(function($reply) use($messages)
@@ -62,6 +62,14 @@ class AjaxController extends Controller
                     $messages->push($reply);
                 });
         }
+        elseif($id==3)
+        {
+            $messages = Message::where('to_id', Auth::id())->where('status', 0)->get();
+            $replies = Reply::where('to_id', Auth::id())->where('status', 0)->get()->each(function($reply) use($messages)
+                {
+                    $messages->push($reply);
+                });
+        }    
             
 
         return view('partial.messages', ['messages'=>$messages->sortByDesc('date'), 'id'=>$id]);
@@ -101,8 +109,10 @@ class AjaxController extends Controller
             return redirect()->back();
     }
 
-    public function posts($id)
+    public function posts($id, Request $request)
     {
+        $datefrom = $request->datefrom;
+        $dateto = $request->dateto;
         if($id=="all")
         {
             $groups = Auth::user()->groups;
@@ -112,16 +122,59 @@ class AjaxController extends Controller
             {
                 array_push($groupsid, $group->id);
             }
-        
-            $posts = Post::with('groups')->whereHas('groups.users', function($q) use($groupsid){
-                $q->whereIn('group_user.group_id', $groupsid);
-            })->orWhere('public', true)->get()->sortByDesc('date');
+
+            if(!is_null($datefrom)&&!is_null($dateto))
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($groupsid,$datefrom,$dateto){
+                    $q->whereIn('group_user.group_id', $groupsid)->whereBetween('posts.date', [$datefrom . ' 00:00:00', $dateto.' 23:59:59']);
+                })->orWhere('public', true)->whereBetween('date', [$datefrom . ' 00:00:00', $dateto.' 23:59:59'])->get()->sortByDesc('date');
+            }
+            elseif(is_null($datefrom)&&!is_null($dateto))
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($groupsid,$datefrom,$dateto){
+                    $q->whereIn('group_user.group_id', $groupsid)->where('date','<=', $dateto.' 23:59:59');
+                })->orWhere('public', true)->where('date','<=', $dateto.' 23:59:59')->get()->sortByDesc('date');   
+            }
+            elseif(!is_null($datefrom)&&is_null($dateto))
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($groupsid,$datefrom,$dateto){
+                    $q->whereIn('group_user.group_id', $groupsid)->where('date','>=', $datefrom.' 00:00:00');
+                })->orWhere('public', true)->where('date','>=', $datefrom.' 00:00:00')->get()->sortByDesc('date');     
+            }
+            else
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($groupsid){
+                        $q->whereIn('group_user.group_id', $groupsid);
+                    })->orWhere('public', true)->get()->sortByDesc('date');
+            }
         }
         else
-            $posts = Post::with('groups')->whereHas('groups.users', function($q) use($id){
-                $q->where('group_user.group_id', $id);
-            })->get()->sortByDesc('date');
-
+        {
+            if(!is_null($datefrom)&&!is_null($dateto))
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($id, $dateto, $datefrom){
+                    $q->where('group_user.group_id', $id)->whereBetween('date', [$datefrom . ' 00:00:00', $dateto.' 23:59:59']);
+                })->whereBetween('date', [$datefrom . ' 00:00:00', $dateto.' 23:59:59'])->get()->sortByDesc('date');
+            }
+            elseif(is_null($datefrom)&&!is_null($dateto))
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($id, $dateto){
+                    $q->where('group_user.group_id', $id)->where('date','<=', $dateto.' 23:59:59');
+                })->orWhere('public', true)->where('date','<=', $dateto.' 23:59:59')->get()->sortByDesc('date');   
+            }
+            elseif(!is_null($datefrom)&&is_null($dateto))
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($id,$datefrom){
+                    $q->where('group_user.group_id', $id)->where('date','>=', $datefrom.' 00:00:00');
+                })->orWhere('public', true)->where('date','>=', $datefrom.' 00:00:00')->get()->sortByDesc('date');     
+            }
+            else
+            {
+                $posts = Post::with('groups')->whereHas('groups.users', function($q) use($id){
+                    $q->where('group_user.group_id', $id);
+                })->get()->sortByDesc('date');   
+            }
+        }
         return view('partial.posts')->with('posts', $posts);
     }
 

@@ -24,10 +24,12 @@ Route::post('/register', 'UserController@register')->name('register');
 Route::post('/login', 'UserController@login')->name('login');
 Route::get('/logout', 'UserController@logout')->name('logout');
 Route::get('/users', 'UserController@users')->name('users')->middleware('admin'); 
+Route::get('/activateusers', 'UserController@activateusers')->name('activateusers')->middleware('admin'); 
 Route::get('/userprofile', 'UserController@profile')->name('profile')->middleware('loggedin'); 
 Route::get('/userprofile/edit', 'UserController@editprofile')->name('profile.edit')->middleware('loggedin'); 
 Route::post('/userprofile/save', 'UserController@profilesave')->name('profile.save')->middleware('loggedin'); 
 Route::post('/changerole/{id}', 'UserController@changerole')->name('changerole')->middleware('admin'); 
+Route::get('/activate/{r}/{id}', 'UserController@activate')->name('user.activate')->middleware('admin'); 
 Route::get('/users/delete/{id}', 'UserController@delete')->name('user.delete')->middleware('admin'); 
 
 
@@ -61,9 +63,9 @@ Route::get('/file', 'FileController@filelist')->name('files');
 
 // AJAX
 Route::middleware('ajax')->group(function () { 
+	Route::get('/post/filter/{id}', 'AjaxController@posts');
 	Route::get('/message/x/{id}', 'AjaxController@messages')->middleware('loggedin');
 	Route::get('/message/read/{type}/{id}', 'MessageController@read')->middleware('loggedin');
-	Route::get('/post/filter/{id}', 'AjaxController@posts');
 	Route::get('/users/x/{id}', 'AjaxController@users')->middleware('admin');  
 	Route::get('/ajax/search{id}', 'AjaxController@search')->name('search');
 	Route::get('/ajax/user/search', 'AjaxController@searchuser')->name('searchuser');

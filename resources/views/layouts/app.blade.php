@@ -19,12 +19,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+
 <body>
     @if(Auth::check())
     <div id="app">
         <div class="conatiner">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm">
-                
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light shadow-sm">
             <a class="navbar-brand" href="{{route('main')}}">Portal</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -37,9 +37,10 @@
                         
                         $reply = App\Reply::where('to_id', Auth::id())->where('status', false)->count();
                         $msgcount = $msgcount + $reply;
+                        $users = App\User::where('role', 0)->count();
                     ?>
 
-                    <a class="nav-link" href="{{route('messages')}}">Wiadomości   @if($msgcount>0)<p class="badge badge-primary">{{$msgcount}}</p>@endif</a>
+                    <a class="nav-link" href="{{route('messages')}}">Wiadomości   @if($msgcount>0)<span class="badge badge-primary">{{$msgcount}}</span>@endif</a>
                     
                 </li>        
                 <li class="nav-item">
@@ -52,9 +53,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('users')}}">Użytkownicy</a>
                 </li>
+                @if($users>0)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('activateusers')}}">Aktywuj użytkowników<span class="badge badge-primary">{{$users}}</span></a>
+                </li>
+                @endif
                 @endif
             </ul>
-            <li class="nav-item dropdown">
+            <li class="nav nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{Auth::user()->name . ' ' . Auth::user()->surname}}
                 </a>

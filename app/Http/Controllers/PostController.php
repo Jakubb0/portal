@@ -27,32 +27,7 @@ class PostController extends Controller
         }
         else
             $posts = Post::where('public', true)->get()->sortByDesc('date');
-        /*
-        $p = array(); 
-        if(Auth::check())
-        {
-            $user  = Auth::user();
 
-            for($i = 0; $i<count($user->groups); $i++)
-            {
-                for($j = 0; $j<count($user->groups[$i]->posts); $j++)
-                {
-                    $p[]=$user->groups[$i]->posts[$j];
-                }
-            }
-        }
-        
-        $x=Post::where('public', true)->get();
-        
-        if(!empty($x))
-        {
-            foreach ($x as $public) 
-                array_push($p, $public);
-        } 
-
-
-        $p = collect($p)->sortBy('date')->reverse();
-        */
         $view = Auth::check()?'mainpage':'guest'; 
         
         return view($view)->with('posts', $posts);
@@ -60,10 +35,17 @@ class PostController extends Controller
 
     public function add(Request $request)
     {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'recievers' => 'required_without:public',
+            'public' => 'required_without:recievers',
+            'files.*' => 'mimes:rar,zip,7z,doc,docx,ppt,pptx,odt,txt,jpeg,bmp,png,gif,svg,pdf',
+        ]);
 
         $post = Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
+            'title' => htmlspecialchars($request->title),
+            'content' => htmlspecialchars($request->content),
             'user_id' => Auth::id(),
             'date' => date(now()),
             'public'=>0,

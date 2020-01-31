@@ -44,8 +44,10 @@
                       @case(6) Inna @break
                     @endswitch
                   </td>
+                  @if(Auth::user()->role>=2)
                   <td><a class="badge badge-primary" href="{{route('groups.add', $gr->id)}}">Dodaj do grupy</a></td>
                   <td><a class="badge badge-danger" onclick="return confirm('Usunąć: {{$gr->name}} {{$gr->institute}} {{$gr->year}}?');" href="{{route('groups.delete', $gr->id)}}">Usuń grupę</a></td>
+                  @endif
                 </tr>
                 @endforeach
             @else
@@ -76,6 +78,7 @@
         <th>#</th>
         <th>Imię</th>
         <th>Nazwisko</th>
+        @if(Auth::user()->role>=2)<th>Nr albumu</th>@endif
         <th></th>
       </thead>
       <tbody id="test" >

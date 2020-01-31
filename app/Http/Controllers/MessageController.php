@@ -32,8 +32,6 @@ class MessageController extends Controller
         }
         else
             return view('message.create');
-
-
     }
 
     public function add($id)
@@ -43,9 +41,16 @@ class MessageController extends Controller
 
     public function postadd(Request $request)
     {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'to_id' => 'required',
+            'files.*' => 'mimes:rar,zip,7z,doc,docx,ppt,pptx,odt,txt,jpeg,bmp,png,gif,svg,pdf',
+        ]);   
+
         $message = Message::create([
-            'title' => $request->title,
-            'content' => $request->content,
+            'title' => htmlspecialchars($request->title),
+            'content' => htmlspecialchars($request->content),
             'to_id' => $request->cookie('user'),
             'from_id' => Auth::id(),
             'date' => date(now()),
@@ -131,10 +136,15 @@ class MessageController extends Controller
             $to = Reply::find($id)->from_id;
             $fk = Reply::find($id)->messages->id;
         }
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'files.*' => 'mimes:rar,zip,7z,doc,docx,ppt,pptx,odt,txt,jpeg,bmp,png,gif,svg,pdf',
+        ]);   
 
         $reply = Reply::create([
-            'title' => $request->title,
-            'content' => $request->content,
+            'title' => htmlspecialchars($request->title),
+            'content' => htmlspecialchars($request->content),
             'date' => date(now()),
             'message_id' => $fk,
             'status' => false,

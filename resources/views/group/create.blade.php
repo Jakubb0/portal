@@ -9,11 +9,20 @@
             <div class="card-body">
                 <div class="card-text">
                     <div class="modal-body form-group">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form method="post" action="{{route('groups.new')}}">
                             @csrf
                             <div class="form-group text-left font-weight-bold">
-                                <label for="name">Nazwa grupy</label>
-                                    <input class="form-control" name="name" type="text">
+                                <label for="gname">Nazwa grupy</label>
+                                    <input class="form-control" name="gname" type="text">
                                 <label for="institute">Instytut</label>
                                     <input class="form-control" name="institute" type="text">
                                 <label for="year">Rok</label>

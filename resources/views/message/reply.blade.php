@@ -9,6 +9,15 @@
             <div class="card-body">
                 <div class="card-text">
                     <div class="modal-body form-group">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form method="post" action="{{route('message.postreply', [$type, $message->id])}}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group text-left font-weight-bold">

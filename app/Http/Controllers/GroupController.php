@@ -23,9 +23,15 @@ class GroupController extends Controller
 
     public function new(Request $request)
     {
-            
+        $request->validate([
+            'gname' => 'required',
+            'institute' => 'required',
+            'year' => 'required',
+            'type' => 'required',
+        ]);    
+
         $group = Group::create([
-            'name' => $request->name,
+            'name' => $request->gname,
             'institute' => $request->institute,
             'year' => $request->year,
             'type' => $request->type,
@@ -86,10 +92,12 @@ class GroupController extends Controller
 
     public function postadd(Request $request, $id)
     {
+        $request->validate(['users'=>'required']);  
         $cookiename = 'group' .$id;
         $group = Group::find($id);
         Cookie::queue(Cookie::forget($cookiename));
-        
+
+
         foreach($request->users as $user)
         {
             $group->users()->attach($user);

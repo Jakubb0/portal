@@ -152,6 +152,40 @@ return [
         'surname' => [
             'required' => 'Podaj swoje nazwisko!',
         ],
+        'users' => [
+            'required' => 'Brak dodanych użytkowników!',
+        ],        
+        'gname' => [
+            'required' => 'Podaj nazwę grupy!',
+        ],
+        'institute' => [
+            'required' => 'Podaj nazwę instytutu!',
+        ],
+        'year' => [
+            'required' => 'Wpisz rocznik!',
+        ],        
+        'type' => [
+            'required' => 'Nie określono typu grupy!',
+        ],
+        'title' => [
+            'required' => 'Wpisz tytuł wiadomości!',
+        ],
+        'content' => [
+            'required' => 'Wpisz treść wiadomości!',
+        ],
+        'to_id' => [
+            'required' => 'Określ odbiorcę wiadomości!',
+        ],
+        'files.*' => [
+            'mimes' => 'Niedopuszczalne rozszerzenie jednego z plików! (dopuszczone formaty: :values)',
+        ],
+        'recievers' => [
+            'required_without' => 'Nie określono odbiorcy!',
+        ],
+        'public' => [
+            'required_without' => 'Nie określono odbiorcy!',
+        ],
+        
     ],
 
     /*

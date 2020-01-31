@@ -4,28 +4,20 @@
   <div class="row justify-content-center">
     <div class="col-lg">
       <div class="card">
-        <h5 class="card-header">Użytkownicy</h5>
+        <h5 class="card-header">Aktywuj użytkowników</h5>
         <div class="card-body">
           <div class="card-text">
             <div class="table-responsive">
-              <select name="userslist" id="userslist">
-                <option value="1">Studenci</option>
-                <option value="2">Prowadzący</option>
-                <option value="3">Administratorzy</option>
-                <option value="4">Wszyscy</option>
-              </select>
-              <input type="text" id="suser" name="suser">
-              <button id="filterusers" class="btn btn-primary">Filtruj</button>
-              <div id="usersbox">
                 @if(isset($users[0]))
                 <table class="table">
                 <thead>
                   <th scope="col">Imię</th>
                   <th scope="col">Nazwisko</th>
                   <th scope="col">Nr album</th>
-                  <th scope="col"></th>
+                  <th></th>
+                  <th></th>
                 </thead>
-                <tbody id="usersbox">
+                <tbody>
                 @foreach($users as $user)
                 @if($user->role==3)
                 <tr class="highlight">
@@ -35,7 +27,8 @@
                   <td class="uinfo" val="{{$user->id}}" data-toggle="modal" data-target="#uinfoModal">{{$user->name}}</td>
                   <td class="uinfo" val="{{$user->id}}" data-toggle="modal" data-target="#uinfoModal">{{$user->surname}}</td>
                   <td class="uinfo" val="{{$user->id}}" data-toggle="modal" data-target="#uinfoModal">{{$user->album}}</td>
-                  <td><a href="{{route('user.delete', $user->id)}}" class="badge badge-danger" onclick="return confirm('Usunąć: {{$user->name}} {{$user->surname}} {{$user->album}}?');">Usuń</a></td>
+                  <td><a href="{{route('user.activate', [1, $user->id])}}" class="badge badge-primary">Student</a></td>
+                  <td><a href="{{route('user.activate', [2, $user->id])}}" class="badge badge-secondary">Prowadzący</a></td>
                 </tr>
                 @endforeach
                 </tbody>  
@@ -43,7 +36,6 @@
                 @else
                 Brak użytkowników
                 @endif
-              </div>
             
             </div>
                 
