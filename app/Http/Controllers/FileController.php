@@ -28,8 +28,6 @@ class FileController extends Controller
 		})->get();
 
 
-
-
 		foreach ($posts as $p) 
 		{
 			foreach ($p->files as $f) 

@@ -21,7 +21,7 @@ class CreateGroupsTable extends Migration
             $table->tinyInteger('type')->unsigned();
             $table->unsignedBiginteger('owner');
 
-            $table->foreign('owner')->references('id')->on('users');
+            $table->foreign('owner')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -24,10 +24,11 @@
                     <form method="post" action="{{route('groups.postadd', $id)}}">
                         @csrf
                         <div class="form-group text-left font-weight-bold">
-                        <div id="x">
+                        <div id="userstoadd">
                             
                         @if(!empty($users))
                             <label for="users[]">Użytkownicy do dodania (zaznaczeni na niebiesko)</label>
+                            <p class="badge badge-primary" id="clearusers" val="{{$id}}">Wyczyść</p>
                             <select class="form-control multi-option" multiple name="users[]">
                                 @foreach($users as $user)
                                     <option class="multi-option" value="{{$user->id}}" selected>{{$user->name}} {{$user->surname}} Album: {{$user->album}}</option>
@@ -35,7 +36,7 @@
                             </select>          
                         @endif
                         </div>
-                            <input class="btn btn-primary" type="submit" value="Dodaj">
+                            <input class="btn btn-primary" type="submit" value="Dodaj użtkowników">
                     </form>
                     </div>
                     </div>

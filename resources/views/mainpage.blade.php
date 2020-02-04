@@ -16,7 +16,7 @@
             @if(Auth::user()->role==0)
               <h5>Poczekaj na aktywację konta</h5>
             @else
-            @if(isset($posts))
+            @if(isset($posts[0]))
             <button id="filterposts_show" class="btn btn-secondary">Filtruj posty</button>
             <div class="col" id="filterposts_box">
               <br>

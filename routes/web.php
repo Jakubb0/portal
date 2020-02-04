@@ -37,7 +37,7 @@ Route::get('/users/delete/{id}', 'UserController@delete')->name('user.delete')->
 Route::get('/group', 'GroupController@groups')->name('groups');
 Route::view('/group/create', 'group.create')->name('groups.create')->middleware('teacher');
 Route::post('/group/create/new', 'GroupController@new')->name('groups.new')->middleware('teacher');
-Route::get('/group/add/{id}', 'GroupController@add')->name('groups.add')->middleware('teacher');
+Route::get('/group/add/{id}', 'GroupController@add')->name('groups.add')->middleware('mygroup');
 Route::get('/group/delete/{id}', 'GroupController@deletegroup')->name('groups.delete')->middleware('teacher');
 Route::post('/group/save/{id}', 'GroupController@postadd')->name('groups.postadd')->middleware('teacher');
 Route::post('/group/deletefrom/{gid}/{uid}', 'GroupController@deletefrom')->name('groups.deletefrom')->middleware('teacher');
@@ -51,7 +51,7 @@ Route::post('/main/post/add', 'PostController@add')->name('addpost')->middleware
 Route::get('/message', 'MessageController@messages')->name('messages')->middleware('loggedin');
 Route::get('/message/create', 'MessageController@create')->name('message.create')->middleware('loggedin');
 Route::post('/message/postadd', 'MessageController@postadd')->name('message.postadd')->middleware('loggedin');
-Route::get('/message/reply/{type}/{id}', 'MessageController@reply')->name('reply')->middleware('loggedin');
+Route::get('/message/reply/{type}/{id}', 'MessageController@reply')->name('reply')->middleware(['loggedin', 'replytest']);
 Route::post('/message/postreply/{type}/{id}', 'MessageController@postreply')->name('message.postreply')->middleware('loggedin');
 
 
@@ -63,6 +63,7 @@ Route::get('/file', 'FileController@filelist')->name('files');
 
 // AJAX
 Route::middleware('ajax')->group(function () { 
+	Route::get('/clear/{id}', 'GroupController@clearusers')->middleware('teacher');
 	Route::get('/post/filter/{id}', 'AjaxController@posts');
 	Route::get('/message/x/{id}', 'AjaxController@messages')->middleware('loggedin');
 	Route::get('/message/read/{type}/{id}', 'MessageController@read')->middleware('loggedin');

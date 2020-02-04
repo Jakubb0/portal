@@ -68845,14 +68845,14 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./components/Example */ "./resources/js/components/Example.js");
 
-$(".xxx").on("click", function () {
+$(".groupinfo").on("click", function () {
   var id = $(this).attr("val");
-  $('#test').html('<div class="d-flex justify-content-center"><div class="spinner-grow spinner-grow-md" role="status"><span class="sr-only">Loading...</span></div></div>');
+  $('#groupmodal').html('<div class="d-flex justify-content-center"><div class="spinner-grow spinner-grow-md" role="status"><span class="sr-only">Loading...</span></div></div>');
   $.ajax({
     type: 'GET',
     url: './group/info/' + id,
     success: function success(data) {
-      $('#test').html(data);
+      $('#groupmodal').html(data);
     }
   });
 });
@@ -68903,13 +68903,13 @@ $(document).on('mousedown', '.multi-option', function (e) {
   e.preventDefault();
   $(this).prop('selected', !$(this).prop('selected'));
 });
-$(document).on("click", ".zxc", function () {
+$(document).on("click", ".usertogroup", function () {
   var uid = $(this).attr("val");
   $.ajax({
     type: 'GET',
     url: window.location.href + '/' + uid,
     success: function success(data) {
-      $("#x").load(location.href + " #x");
+      $("#userstoadd").load(location.href + " #userstoadd");
     }
   });
 });
@@ -68930,6 +68930,16 @@ $(document).on("click", ".adduser", function () {
   });
   $('#searchuser').hide();
   $('#tezt').hide();
+});
+$(document).on("click", "#clearusers", function () {
+  var id = $(this).attr('val');
+  $.ajax({
+    type: 'GET',
+    url: '../../clear/' + id,
+    success: function success(data) {
+      $("#userstoadd").load(location.href + " #userstoadd");
+    }
+  });
 });
 $(document).on("click", "#changeuser", function (e) {
   e.preventDefault();

@@ -23,7 +23,7 @@ class CreateRepliesTable extends Migration
             $table->dateTime('date');
             $table->boolean('status');
 
-            $table->foreign('message_id')->references('id')->on('messages');
+            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
             $table->foreign('from_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('to_id')->references('id')->on('users')->onDelete('set null');
 

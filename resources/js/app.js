@@ -15,16 +15,16 @@ require('./bootstrap');
 require('./components/Example');
 
 
-$(".xxx").on( "click", function() {
+$(".groupinfo").on( "click", function() {
 	var id = $( this ).attr("val");
 	
-	$('#test').html('<div class="d-flex justify-content-center"><div class="spinner-grow spinner-grow-md" role="status"><span class="sr-only">Loading...</span></div></div>');
+	$('#groupmodal').html('<div class="d-flex justify-content-center"><div class="spinner-grow spinner-grow-md" role="status"><span class="sr-only">Loading...</span></div></div>');
 
 	$.ajax({
 	   type:'GET',
 	   url:'./group/info/' + id,
 	   success:function(data) {
-	   		$('#test').html(data);
+	   		$('#groupmodal').html(data);
 	   }
 	});
 });
@@ -80,15 +80,14 @@ $(document).on('mousedown', '.multi-option', function(e){
 });
 
 
-$(document).on( "click", ".zxc" ,function() {
+$(document).on( "click", ".usertogroup" ,function() {
 	var uid = $( this ).attr("val");
 	
 	$.ajax({
 	   	type:'GET',
 	   	url: window.location.href + '/' +uid,
 	   	success:function(data) {
-	   		$("#x").load( location.href+" #x");
-
+	   		$("#userstoadd").load( location.href+" #userstoadd");
 	   }
 	});
 });
@@ -113,6 +112,17 @@ $(document).on("click", ".adduser", function(){
 	});
 	$('#searchuser').hide();
 	$('#tezt').hide();
+});
+
+$(document).on("click", "#clearusers", function(){
+	var id = $(this).attr('val');
+	$.ajax({
+	   	type:'GET',
+	   	url: '../../clear/' +id,
+	   	success:function(data) {
+	   		$("#userstoadd").load( location.href+" #userstoadd");
+	   }
+	});
 });
 
 $(document).on("click", "#changeuser", function(e){

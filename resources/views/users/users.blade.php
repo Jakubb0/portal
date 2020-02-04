@@ -43,10 +43,8 @@
                 @else
                 Brak użytkowników
                 @endif
-              </div>
-            
-            </div>
-                
+              </div>            
+            </div>              
           </div>
         </div>
       </div>

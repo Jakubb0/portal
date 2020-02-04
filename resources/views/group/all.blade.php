@@ -11,7 +11,7 @@
         </h5>
         <div class="card-body">
           <div class="card-text">
-            @if(isset($groups))
+            @if(isset($groups[0]))
             <h4>Twoje grupy</h4>
             <br/>
             <div class="table-responsive">
@@ -30,11 +30,11 @@
               <tbody>
                 @foreach($groups as $i=>$gr)
                 <tr>
-                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$i+1}}</td>
-                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$gr->name}}</td>
-                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$gr->institute}}</td>
-                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">{{$gr->year}}</td>
-                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="xxx">
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="groupinfo">{{$i+1}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="groupinfo">{{$gr->name}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="groupinfo">{{$gr->institute}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="groupinfo">{{$gr->year}}</td>
+                  <td data-toggle="modal" data-target="#groupModal" val="{{$gr->id}}" class="groupinfo">
                     @switch($gr->type)
                       @case(1) Wykładowa @break
                       @case(2) Ćwiczeniowa @break
@@ -44,7 +44,7 @@
                       @case(6) Inna @break
                     @endswitch
                   </td>
-                  @if(Auth::user()->role>=2)
+                  @if(Auth::user()->role>2 || App\Group::find($gr->id)->owner==Auth::id())
                   <td><a class="badge badge-primary" href="{{route('groups.add', $gr->id)}}">Dodaj do grupy</a></td>
                   <td><a class="badge badge-danger" onclick="return confirm('Usunąć: {{$gr->name}} {{$gr->institute}} {{$gr->year}}?');" href="{{route('groups.delete', $gr->id)}}">Usuń grupę</a></td>
                   @endif
@@ -73,7 +73,8 @@
       </button>
     </div>
     <div class="modal-body">
-      <table class="table responsive">
+      <div class="table-responsive">
+      <table class="table">
       <thead>
         <th>#</th>
         <th>Imię</th>
@@ -81,9 +82,10 @@
         @if(Auth::user()->role>=2)<th>Nr albumu</th>@endif
         <th></th>
       </thead>
-      <tbody id="test" >
+      <tbody id="groupmodal">
       </tbody>
       </table>
+    </div>
     </div>
   </div>
 </div>

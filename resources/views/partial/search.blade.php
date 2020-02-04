@@ -11,7 +11,7 @@
     <td>{{$i+1}}</td>
     <td>{{$user->name}}</td>
     <td>{{$user->surname}}</td>
-    @if($user->id != Auth::id())<td><button class="zxc badge badge-primary" name="userid" val="{{$user->id}}">Dodaj</button></td>@endif
+    @if($user->id != Auth::id())<td><button class="usertogroup badge badge-primary" name="userid" val="{{$user->id}}">Dodaj</button></td>@endif
   </tr>
 @endforeach
 </tbody>

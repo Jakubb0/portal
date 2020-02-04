@@ -80,7 +80,7 @@ class UserController extends Controller
 
     public function users()
     {
-        $users = User::paginate(10);
+        $users = User::all();
         return view('users.users')->with('users', $users);
     }
 

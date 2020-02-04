@@ -18,8 +18,8 @@ class CreateGroupPostTable extends Migration
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('post_id');
 
-            $table->foreign('group_id')->references('id')->on('groups');
-            $table->foreign('post_id')->references('id')->on('posts');  
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');  
         });
     }
 

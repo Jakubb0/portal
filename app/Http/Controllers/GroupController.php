@@ -50,7 +50,7 @@ class GroupController extends Controller
 
         $cookie = $request->cookie($cookiename);
 
-        if($cookie == null)
+        if($cookie == null&&User::where('id', $uid)->exists())
         {
             Cookie::queue('group' . $id, $uid, 15);   
         }
@@ -60,7 +60,7 @@ class GroupController extends Controller
 
             for ($i=0; $i<count($cookie); $i++) 
             {
-                if(!in_array($uid, $cookie))
+                if(!in_array($uid, $cookie)&&User::where('id', $uid)->exists())
                 {
                     array_push($cookie, $uid); 
                     $cookie = implode(';', $cookie);
@@ -90,6 +90,7 @@ class GroupController extends Controller
         return view('group.add', ['users' => $test, 'id' => $id])->with('users', $test);
     }
 
+
     public function postadd(Request $request, $id)
     {
         $request->validate(['users'=>'required']);  
@@ -100,10 +101,17 @@ class GroupController extends Controller
 
         foreach($request->users as $user)
         {
-            $group->users()->attach($user);
+            if(User::where('id', $user)->exists())
+                $group->users()->attach($user);
         }
 
         return redirect()->route('groups');
+    }
+
+    public function clearusers($id)
+    {
+        $cookiename = 'group' .$id;
+        Cookie::queue(Cookie::forget($cookiename));
     }
 
     public function deletefrom($gid, $uid)

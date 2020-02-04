@@ -21,11 +21,6 @@ class AjaxController extends Controller
            })->whereDoesntHave('groups', function($q) use($request, $id){
                 $q->where('group_user.group_id',$id);
         })->get();
-        
-
-        
-        //$user = DB::select(DB::raw("select * from `users` where (`name` LIKE '%$request->search%' or `album` LIKE '%$request->search%' or `surname` LIKE '%$request->search%') and not exists (select * from `groups` inner join `group_user` on `groups`.`id` = `group_user`.`group_id` where `users`.`id` = `group_user`.`user_id` and `group_user`.`group_id` = $id)"));
-
 
         return view('partial.search')->with('users', $user);
     }
@@ -41,7 +36,7 @@ class AjaxController extends Controller
         $group = Group::where('id', $id)->first();
         $owner = $group->owner;
         $users = $group->users;
-        return view('partial.test', ['users' => $users, 'owner' => $owner, 'gid'=>$id]);
+        return view('partial.groups', ['users' => $users, 'owner' => $owner, 'gid'=>$id]);
     }
 
     public function messages($id)
