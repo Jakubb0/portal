@@ -119,8 +119,12 @@ class GroupController extends Controller
 
     public function deletefrom($gid, $uid)
     {
-        $group = Group::find($gid);
-        $group->users()->detach($uid);
+        if(Group::where('id', $gid)->exists()&&User::where('id', $uid)->exists())
+        {
+            $group = Group::find($gid);
+            if($group->users->contains($uid))
+                $group->users()->detach($uid);
+        }
         return redirect()->back();
     }
 
