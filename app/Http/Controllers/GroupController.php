@@ -126,11 +126,14 @@ class GroupController extends Controller
 
     public function deletegroup($id)
     {
-        $group = Group::find($id);
-        if(isset($group->users[0]))
-            $group->users()->detach();
+        if(Group::where('id', $id)->exists()&&Auth::user()->role>2||Group::where('owner', Auth::id()))
+        {
+            $group = Group::find($id);
+            if(isset($group->users[0]))
+                $group->users()->detach();
 
-        $group->delete();
+            $group->delete();
+        }
 
         return redirect()->route('groups');
     }
