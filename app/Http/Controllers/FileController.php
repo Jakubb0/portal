@@ -14,37 +14,53 @@ class FileController extends Controller
 {
 	public function filelist()
 	{
-		$groups=Auth::user()->groups->all();
-		$g = array();
 		$files = array();
-
-		foreach($groups as $group)
+		if(Auth::check())
 		{
-			array_push($g, $group->id);
-		}
+			$groups=Auth::user()->groups->all();
+			$g = array();
 
-		$posts = Post::with('files')->whereHas('groups.users', function($q) use($g){
-		    $q->whereIn('group_user.user_id', $g);
-		})->get();
-
-
-		foreach ($posts as $p) 
-		{
-			foreach ($p->files as $f) 
+			foreach($groups as $group)
 			{
-				if(!in_array($f, $files))
-					array_push($files, $f);
+				array_push($g, $group->id);
+			}
+
+			$posts = Post::with('files')->whereHas('groups.users', function($q) use($g){
+			    $q->whereIn('group_user.user_id', $g);
+			})->get();
+
+
+			foreach ($posts as $p) 
+			{
+				foreach ($p->files as $f) 
+				{
+					if(!in_array($f, $files))
+						array_push($files, $f);
+				}
+			}
+
+			$publicpost = Post::where('public', true)->get();
+			foreach($publicpost as $ppost)
+			{
+				foreach ($ppost->files as $file) 
+				{
+					if(!in_array($file, $files))
+						array_push($files, $file);
+				}
 			}
 		}
-
-		$publicpost = Post::where('public', true)->get();
-		foreach($publicpost as $ppost)
+		else
 		{
-			foreach ($ppost->files as $file) 
+			$publicpost = Post::where('public', true)->get();
+			foreach($publicpost as $ppost)
 			{
-				if(!in_array($file, $files))
-					array_push($files, $file);
+				foreach ($ppost->files as $file) 
+				{
+					if(!in_array($file, $files))
+						array_push($files, $file);
+				}
 			}
+
 		}
 
 		return view('files.all')->with('files', $files);

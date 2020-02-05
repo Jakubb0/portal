@@ -8,7 +8,9 @@
         <h5 class="card-header">Aktualności</h5>
         <div class="card-body">
           <div class="card-text">
-            <h5>Witaj! Wszystkie funkcjonalności dostępne są po <a href="{{route('home')}}"> zalogowaniu.</a></h5> 
+            <h5>Witaj! Wszystkie funkcjonalności dostępne są po <a href="{{route('home')}}"> zalogowaniu.</a><br>
+            Udostępnione publicznie pliki znajdziesz <a href="{{route('files')}}">tutaj.</a>
+            </h5> 
           
             @if(isset($posts))
             <div id="posts">
