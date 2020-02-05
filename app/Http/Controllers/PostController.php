@@ -65,9 +65,6 @@ class PostController extends Controller
             }
         }
 
-        
-
-
 
         if($request->file('files'))
         {
@@ -87,6 +84,17 @@ class PostController extends Controller
         }
 
         return redirect()->route('main');
+    }
+
+    public function delete($id)
+    {
+        if(Post::where('id', $id)->exists()&&Post::where('user_id', Auth::id()))
+        {
+            $post = Post::find($id);
+            $post->files()->delete();
+            $post->delete();
+        }
+        return redirect()->route('home');
     }
 
 }

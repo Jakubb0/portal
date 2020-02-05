@@ -11402,11 +11402,6 @@ a.text-dark:focus {
   background-color: #f2f2f2;
 }
 
-#messages p {
-  padding-right: 20%;
-  height: 100%;
-}
-
 #messages .recieved {
   background-color: white !important;
 }

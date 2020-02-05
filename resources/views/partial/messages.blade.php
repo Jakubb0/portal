@@ -7,7 +7,8 @@
 @else
 <article class="show_message" val="{{$message->id}}" type="{{$type}}">
 @endif
-    <p class="d-inline">
+    <p class="d-flex justify-content-between">
+    <span class="col">
         @if($id==1)
             @if(is_null($message->from_id))
             Od: <span class="text-danger">Użytkownika usniętego</span>
@@ -21,11 +22,13 @@
             Do: {{App\User::find($message->to_id)->name .' '. App\User::find($message->to_id)->surname }}
             @endif
         @endif
+    </span>
+    <span class="col">Tytuł: {{$message->title}}</span>
+    <span class="col text-right text-muted mr-auto">{{$message->date}}</span>
+    @if($message->from_id==Auth::id())<a href="{{route('message.delete', $message->id)}}" class="badge badge-danger">X</a>@endif
     </p>
-    <p class="d-inline">Tytuł: {{$message->title}}</p>
-    <p class="d-inline">{{$message->date}}</p>
     <div id="message_content{{$type}}_{{$message->id}}" class="d-none">
-        <p class="d-block">{{$message->content}}</p>          
+        <p class="col">{{$message->content}}</p>          
     @if($id==1 && $message->from_id!==null)<div class="text-right"><a href="{{route('reply',[$type, $message->id])}}" class="badge badge-primary">Odpisz</a></div>@endif 
     @if(isset($message->files[0]))   
       <small class="text-muted">

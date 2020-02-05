@@ -49,10 +49,12 @@ class GroupController extends Controller
         $cookiename = 'group' . $id;
 
         $cookie = $request->cookie($cookiename);
+        $g=Group::find($id);
 
         if($cookie == null&&User::where('id', $uid)->exists())
         {
-            Cookie::queue('group' . $id, $uid, 15);   
+            if(!$g->users()->get()->contains($uid))
+                Cookie::queue('group' . $id, $uid, 15);   
         }
         else
         {
@@ -64,7 +66,8 @@ class GroupController extends Controller
                 {
                     array_push($cookie, $uid); 
                     $cookie = implode(';', $cookie);
-                    Cookie::queue('group' . $id, $request->cookie($cookiename).';'. $uid, 15);
+                    if(!$g->users()->get()->contains($uid))
+                        Cookie::queue('group' . $id, $request->cookie($cookiename).';'. $uid, 15);
                     $cookie = explode(';', $cookie);
                 }
             }

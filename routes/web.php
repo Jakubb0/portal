@@ -46,11 +46,13 @@ Route::post('/group/deletefrom/{gid}/{uid}', 'GroupController@deletefrom')->name
 Route::get('/main', 'PostController@posts')->name('main')->middleware('loggedin');
 Route::view('/main/post', 'post.create')->name('createpost')->middleware('teacher');
 Route::post('/main/post/add', 'PostController@add')->name('addpost')->middleware('teacher');
+Route::get('/main/post/delete/{id}', 'PostController@delete')->name('deletepost')->middleware('teacher');
 
 // MESSAGE
 Route::get('/message', 'MessageController@messages')->name('messages')->middleware('loggedin');
 Route::get('/message/create', 'MessageController@create')->name('message.create')->middleware('loggedin');
 Route::post('/message/postadd', 'MessageController@postadd')->name('message.postadd')->middleware('loggedin');
+Route::get('/message/delete/{id}', 'MessageController@delete')->name('message.delete')->middleware('loggedin');
 Route::get('/message/reply/{type}/{id}', 'MessageController@reply')->name('reply')->middleware(['loggedin', 'replytest']);
 Route::post('/message/postreply/{type}/{id}', 'MessageController@postreply')->name('message.postreply')->middleware('loggedin');
 
@@ -62,17 +64,16 @@ Route::get('/file', 'FileController@filelist')->name('files');
 
 
 // AJAX
-Route::middleware('ajax')->group(function () { 
-	Route::get('/clear/{id}', 'GroupController@clearusers')->middleware('teacher');
-	Route::get('/post/filter/{id}', 'AjaxController@posts');
 	Route::get('/message/x/{id}', 'AjaxController@messages')->middleware('loggedin');
+Route::middleware('ajax')->group(function () { 
+	Route::get('group/clear/{id}', 'GroupController@clearusers')->middleware('teacher');
+	Route::get('/post/filter/{id}', 'AjaxController@posts');
 	Route::get('/message/read/{type}/{id}', 'MessageController@read')->middleware('loggedin');
 	Route::get('/users/x/{id}', 'AjaxController@users')->middleware('admin');  
 	Route::get('/ajax/search{id}', 'AjaxController@search')->name('search');
 	Route::get('/ajax/user/search', 'AjaxController@searchuser')->name('searchuser');
 	Route::get('/userinfo/{id}', 'AjaxController@userinfo')->name('userinfo')->middleware('teacher'); 
-	Route::get('/group/add/{id}/{uid}', 'GroupController@addto')->name('groups.addto')->middleware('teacher');
 	Route::get('/message/add/{id}', 'MessageController@add')->name('message.add');
 	Route::get('/group/info/{id}', 'AjaxController@groups')->name('grouptest');
-    
+	Route::get('/group/add/{id}/{uid}', 'GroupController@addto')->name('groups.addto')->middleware('teacher');
 });

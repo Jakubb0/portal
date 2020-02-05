@@ -134,10 +134,13 @@ class UserController extends Controller
 
     public function delete($id)
     {
-        $user = User::find($id);
-        if(isset($user->groups[0]))
-            $user->groups()->detach();
-        $user->delete();
+        if(User::where('id', $id)->exists())
+        {
+            $user = User::find($id);
+            if(isset($user->groups[0]))
+                $user->groups()->detach();
+            $user->delete();
+        }
 
         return redirect()->back();
     }

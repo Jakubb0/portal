@@ -118,7 +118,7 @@ $(document).on("click", "#clearusers", function(){
 	var id = $(this).attr('val');
 	$.ajax({
 	   	type:'GET',
-	   	url: '../../clear/' +id,
+	   	url: '../clear/' +id,
 	   	success:function(data) {
 	   		$("#userstoadd").load( location.href+" #userstoadd");
 	   }

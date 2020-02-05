@@ -180,4 +180,16 @@ class MessageController extends Controller
 
         return redirect()->route('messages');
     }
+
+    public function delete($id)
+    {
+        if(Message::where('id', $id)->exists() && Message::where('to_id', Auth::id()))
+        {
+            $message = Message::find($id);
+            $message->files()->delete();
+            $message->delete();
+        }
+        return redirect()->route('messages');
+
+    }
 }
